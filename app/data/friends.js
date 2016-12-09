@@ -96,3 +96,5 @@ scores: [
 ]
 }
 ];
+
+module.exports = friends;
