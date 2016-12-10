@@ -30,21 +30,40 @@ module.exports = function(app) {
   // Then the server saves the data to the friends array)
   // ---------------------------------------------------------------------------
 
-  app.post("/api/friends", function(req, res) {
-    // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
-    // It will do this by sending out the value "true" have a table
+app.post('/api/friends', function(req, res){
+  var newFriend = req.body;
+  friends.push(newFriend);
+  res.json(match(newFriend));
+});
 
+// ---------------------------------------------------------------------------
+// I added this below code so you could clear out the table while working with the functionality.
+// Don"t worry about it!
 
-  });
+app.post("/api/clear", function() {
+  // Empty out the arrays of data
+  friends = [];
 
-  // ---------------------------------------------------------------------------
-  // I added this below code so you could clear out the table while working with the functionality.
-  // Don"t worry about it!
+  console.log(friends);
+});
 
-  app.post("/api/clear", function() {
-    // Empty out the arrays of data
-    friends = [];
-
-    console.log(friends);
-  });
 };
+
+function match(newFriend){
+
+    var lowestDiff = 50;
+    var match;
+    var diff = 0;
+
+  			for( var i in friends){
+          for(var j in newFriend.scores){
+
+  				diff += Math.abs(parseInt(newFriend.scores[j]) - parseInt(friends[i].scores[j]));
+  			}if(diff <= lowestDiff){
+  				lowestDiff = diff;
+  				match = friends[i];
+  			}
+      }
+      console.log(match);
+      return match;
+  }
